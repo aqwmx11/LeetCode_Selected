@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 struct myNode {
@@ -88,6 +89,65 @@ myNode* mergeTrees(myNode* t1, myNode* t2) {
 	newNode->left = mergeTrees(t1->left, t2->left);
 	newNode->right = mergeTrees(t1->right, t2->right);
 	return newNode;
+}
+
+//9th function, slim BST in the range
+//LeetCode 669
+myNode* trimBST(myNode* root, int L, int R) {
+        if (!root)
+            return nullptr;
+        if (root->val<L)
+            return trimBST(root->right,L,R);
+        else if (root->val>R)
+            return trimBST(root->left,L,R);
+        else {
+            root->left=trimBST(root->left,L,R);
+            root->right=trimBST(root->right,L,R);
+            return root;
+        }
+    }
+
+//10th function, calculate average of levels of each node
+//LeetCode 637
+//We are using BFS instead of recursion here, and queue is a great container here
+vector<double> averageOfLevels(myNode* root) {
+        vector<double> res;
+        queue<myNode*> q;
+        q.push(root);
+        while(!q.empty()) {
+            int temp=0;
+            int s=q.size();
+            for(int i=0;i<s;i++) {
+                myNode* t=q.front();
+                q.pop();
+                if(t->left) q.push(t->left);
+                if(t->right) q.push(t->right);
+                temp+=t->val;
+            }
+            res.push_back((double)temp/s);
+        }
+        return res;
+    }
+
+//11th function, calculate the max depth of BST
+//LeetCode 104
+//Definitely we can use BFS as the function above, but a more convenient way is using DFS
+int maxDepth(myNode* root){
+	if(!root)
+		return 0;
+	else
+		return max(maxDepth(root->left),maxDepth(root->right))+1;
+}
+
+//12th function, inverse a BST, which means that you swap every left nodes with right nodes
+//LeetCode226
+myNode* invertTree(myNode* root) {
+        if(root){
+            invertTree(root->left);
+            invertTree(root->right);
+            swap(root->left,root->right);
+        }
+        return root;
 }
 
 int main() {
