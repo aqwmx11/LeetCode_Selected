@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include 
 using namespace std;
 
 struct myNode {
@@ -173,7 +174,33 @@ bool findTarget(TreeNode* root, int k) {
             i++;
     }
     return false;
-}    
+}
+
+//15th function, tranform a BST into a string
+//LeetCode 606
+string tree2str(myNode* t) {
+    if(!t) return "";
+    string result=to_string(t->val);
+    if(t->left)
+        result+="("+tree2str(t->left)+")";
+    else if(t->right)
+        result+="()";
+    if(t->right)
+        result+="("+tree2str(t->right)+")";
+    return result;
+}
+
+//16th function, convert BST to greater tree
+//LeetCode 538
+int sum=0;
+myNode* convertBST(myNode* root){
+	if(root){
+		convertBST(root->right);
+		root->val=(sum+=root->val);
+		convertBST(root->left);
+	}
+	return root;
+}
 
 int main() {
 	myNode* top = 0;
