@@ -150,6 +150,31 @@ myNode* invertTree(myNode* root) {
         return root;
 }
 
+//13th function, a helper function, transform BST into a sorted array
+//Just like the first function
+void inOrder(myNode* root, vector<int>& nums){
+        if(root==nullptr) return;
+        inOrder(root->left,nums);
+        nums.push_back(root->val);
+        inOrder(root->right,nums);
+}
+
+//14th function, determine whether an input number can be the sum of 2 numbers in BST
+//LeetCode 653
+bool findTarget(TreeNode* root, int k) {
+	vector<int> nums;
+    inOrder(root,nums);
+    for(int i=0,j=nums.size()-1;i<j;){
+        if(nums[i]+nums[j]==k)
+            return true;
+        else if(nums[i]+nums[j]>k)
+            j--;
+        else
+            i++;
+    }
+    return false;
+}    
+
 int main() {
 	myNode* top = 0;
 	insert(&top, 5);
